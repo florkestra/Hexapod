@@ -1,0 +1,9 @@
+{
+  "name":"codestrument2",
+  "version": "0.0.1",
+  "dependencies": {
+    "osc.js": ">=1.0.2",
+    "flocking": "git://github.com/colinbdclark/Flocking.git",
+    "jquery.terminal":  "git://github.com/jcubic/jquery.terminal.git"
+  }
+}

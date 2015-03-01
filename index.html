@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>  
+    <head> 
+    <script src="bower_components/flocking/dist/flocking-all.min.js"></script>
+    <script src="bower_components/jquery.terminal/js/jquery.mousewheel-min.js"></script>
+    <script src="bower_components/jquery.terminal/js/jquery.terminal-min.js"></script>
+    <link href="bower_components/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+    afkjadlfaldjf
+     <div id="term_demo"></div>
+
+<script>
+jQuery(function($, undefined) {
+    $('#term_demo').terminal(function(command, term) {
+        if (command !== '') {
+            try {
+                var result = window.eval(command);
+                if (result !== undefined) {
+                    term.echo(new String(result));
+                }
+            } catch(e) {
+                term.error(new String(e));
+            }
+        } else {
+           term.echo('');
+        }
+    }, {
+        greetings: 'Javascript Interpreter',
+        name: 'js_demo',
+        height: 200,
+        prompt: 'js> '});
+});
+</script>
+</body>
+</html>
