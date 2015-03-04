@@ -5,12 +5,10 @@
     <script src="bower_components/jquery.terminal/js/jquery.mousewheel-min.js"></script>
     <script src="bower_components/jquery.terminal/js/jquery.terminal-min.js"></script>
     <link href="bower_components/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
-
 </head>
 <body>
-
-    afkjadlfaldjf
      <div id="term_demo"></div>
+     <canvas id="animation"></canvas>
 
 <script>
 jQuery(function($, undefined) {
@@ -28,11 +26,23 @@ jQuery(function($, undefined) {
            term.echo('');
         }
     }, {
-        greetings: 'Javascript Interpreter',
+        greetings: '',
         name: 'js_demo',
         height: 200,
-        prompt: 'js> '});
+        prompt: 'flock> '});
 });
+</script>
+
+<script>
+    var hexapod = flock.synth({
+        synthDef:{
+            id: "l1",
+            ugen: "flock.ugen.sinOsc",
+            freq: 400,
+            mul: 0.25,
+        }
+    });
+
 </script>
 </body>
 </html>
