@@ -39,9 +39,12 @@ jQuery(function($, undefined) {
             id: "l1",
             ugen: "flock.ugen.sinOsc",
             freq: 400,
-            mul: 0.25,
+            mul: 0.,
         }
     });
+
+var fadein = {ugen: "flock.ugen.line", start: 1, end: 0, time: 10};
+var fadeout = {ugen: "flock.ugen.line", start: 0., end: 0. time: 10 };
 
 </script>
 </body>
