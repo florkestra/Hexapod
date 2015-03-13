@@ -7,12 +7,12 @@
     <link href="bower_components/jquery.terminal/css/jquery.terminal.css" rel="stylesheet"/>
 </head>
 <body>
-     <div id="term_demo"></div>
+     <div id="flockterm"></div>
      <canvas id="animation"></canvas>
 
 <script>
 jQuery(function($, undefined) {
-    $('#term_demo').terminal(function(command, term) {
+    $('#flockterm').terminal(function(command, term) {
         if (command !== '') {
             try {
                 var result = window.eval(command);
@@ -26,8 +26,9 @@ jQuery(function($, undefined) {
            term.echo('');
         }
     }, {
-        greetings: '',
-        name: 'js_demo',
+	completion: ['hexapod'],
+        greetings: false,
+        name: 'flockterm',
         height: 200,
         prompt: 'flock> '});
 });
@@ -37,19 +38,28 @@ jQuery(function($, undefined) {
 
 (function(){
 
-fluid.registerNamespace("hexapod");
+	fluid.registerNamespace("hexapod");
+	hexapod.synthname = "l1";
+	hexapod.synth = flock.synth({
+		synthDef:{
+			id: hexapod.synthname,
+			ugen: "flock.ugen.sinOsc",
+			freq: 400,
+			mul: 0.,
+		}
+	});
 
-hexapod.synth = flock.synth({
-synthDef:{
-id: "l1",
-ugen: "flock.ugen.sinOsc",
-freq: 400,
-mul: 0.,
-}
-});
+	hexapod.fadein = {ugen: "flock.ugen.line", start: 0, end: 0.25, time: 10};
+	hexapod.fadeout = {ugen: "flock.ugen.line", start: 1., end: 0. ,time: 10 };
+	hexapod.vibrato = {ugen: "flock.ugen.sinOsc", freq: 1., mul: 3 };
 
-	 hexapod.fadein = {ugen: "flock.ugen.line", start: 1, end: 0, time: 10};
-	 hexapod.fadeout = {ugen: "flock.ugen.line", start: 0., end: 0. ,time: 10 };
+	hexapod.rock = function(){
+		console.log("afdfa");		
+		$("#flockterm").animate({"backgroundColor": "#555"},5000);// doesn't work 
+	};
+
+	hexapod.play = hexapod.synth.play;
+	hexapod.set = hexapod.synth.set;
 }());
 
 </script>
