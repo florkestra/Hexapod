@@ -9,6 +9,7 @@
 <body>
      <div id="flockterm"></div>
      <canvas id="animation"></canvas>
+     <p>cl cr l1</p0>
 
 <script>
 jQuery(function($, undefined) {
@@ -29,7 +30,7 @@ jQuery(function($, undefined) {
 	completion: ['hexapod'],
         greetings: false,
         name: 'flockterm',
-        height: 200,
+        height: 500,
         prompt: 'flock> '});
 });
 </script>
@@ -40,7 +41,22 @@ jQuery(function($, undefined) {
 
 	fluid.registerNamespace("hexapod");
 	hexapod.synthname = "l1";
-	hexapod.synth = flock.synth({
+
+	hexapod.fadein = {ugen: "flock.ugen.line", start: 0, end: 0.25, duration: 100};
+	hexapod.fadeout = {ugen: "flock.ugen.line", start: 0.25, end: 0., duration: 100 };
+	hexapod.vibrato = {ugen: "flock.ugen.sinOsc", freq: 1., mul: 3 };
+	hexapod.wobble = {ugen: "flock.ugen.sinOsc", freq: 1., mul: 0, add: 400 };
+
+	hexapod.rock = function(){
+        hexapod.click.play();
+	};
+
+    hexapod.sleep = function(){
+        hexapod.fadeout.start = hexapod.synth.get("l1.mul");
+        hexapod.set(hexapod.synthname + ".mul", hexapod.fadeout ); 
+    };
+    
+    hexapod.synth = flock.synth({
 		synthDef:{
 			id: hexapod.synthname,
 			ugen: "flock.ugen.sinOsc",
@@ -48,18 +64,43 @@ jQuery(function($, undefined) {
 			mul: 0.,
 		}
 	});
+    
+    hexapod.click = flock.synth({
+        synthDef :[
+        {
+            id: "cl",
+            ugen: "flock.ugen.filter.biquad.lp",
+            freq: {
+                ugen: "flock.ugen.sinOsc",
+                freq: 0.2, 
+                add: 5000, 
+                mul: 1200,
+            },
+            source: {
+                ugen: "flock.ugen.impulse",
+                freq: 4,
+            }
+        },
+        {
+            id: "cr",
+            ugen: "flock.ugen.filter.biquad.lp",
+            freq: {
+                ugen: "flock.ugen.sinOsc",
+                add: 4000, 
+                mul: 1000, 
+                freq: 0.25
+            }, 
+            source: {
+                ugen: "flock.ugen.impulse",
+                freq: 4,
+            }
+        } 
+        ]
+    });
 
-	hexapod.fadein = {ugen: "flock.ugen.line", start: 0, end: 0.25, time: 10};
-	hexapod.fadeout = {ugen: "flock.ugen.line", start: 1., end: 0. ,time: 10 };
-	hexapod.vibrato = {ugen: "flock.ugen.sinOsc", freq: 1., mul: 3 };
-
-	hexapod.rock = function(){
-		console.log("afdfa");		
-		$("#flockterm").animate({"backgroundColor": "#555"},5000);// doesn't work 
-	};
-
-	hexapod.play = hexapod.synth.play;
+    hexapod.play = hexapod.synth.play;
 	hexapod.set = hexapod.synth.set;
+    
 }());
 
 </script>
